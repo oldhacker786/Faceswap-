@@ -1,116 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Tester Tool</title>
+    <title>API Working Checker</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 500px;
+            margin: 50px auto;
             padding: 20px;
-            line-height: 1.6;
+            text-align: center;
         }
-        .container {
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        input, select, button {
-            padding: 8px;
-            margin: 5px 0;
-        }
-        textarea {
+        #api-url {
             width: 100%;
-            height: 150px;
-            margin: 10px 0;
-        }
-        #response {
-            background-color: #f5f5f5;
             padding: 10px;
-            border-radius: 5px;
-            white-space: pre-wrap;
+            margin: 10px 0;
+            font-size: 16px;
         }
-        .success {
+        #check-btn {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .working {
             color: green;
         }
-        .error {
+        .not-working {
             color: red;
         }
     </style>
 </head>
 <body>
-    <h1>API Tester Tool</h1>
-    <p>Check if any API is working without backend code</p>
+    <h1>API Checker</h1>
+    <p>Enter API URL to check if it's working</p>
     
-    <div class="container">
-        <h2>Test API Endpoint</h2>
-        
-        <label for="api-url">API URL:</label><br>
-        <input type="url" id="api-url" placeholder="https://api.example.com/data" size="50"><br>
-        
-        <label for="method">HTTP Method:</label>
-        <select id="method">
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-            <option value="PUT">PUT</option>
-            <option value="DELETE">DELETE</option>
-        </select><br>
-        
-        <label for="request-data">Request Data (JSON):</label><br>
-        <textarea id="request-data" placeholder='{"key":"value"}'></textarea><br>
-        
-        <button onclick="testApi()">Test API</button>
-        
-        <h3>Response:</h3>
-        <div id="response-status"></div>
-        <div id="response"></div>
-    </div>
+    <input type="url" id="api-url" placeholder="https://api.example.com/data">
+    <button id="check-btn" onclick="checkApi()">Check API</button>
     
+    <div id="result"></div>
+
     <script>
-        async function testApi() {
-            const url = document.getElementById('api-url').value;
-            const method = document.getElementById('method').value;
-            const requestData = document.getElementById('request-data').value;
+        async function checkApi() {
+            const url = document.getElementById('api-url').value.trim();
+            const resultDiv = document.getElementById('result');
             
-            if (!url) {
-                alert('Please enter API URL');
+            if(!url) {
+                resultDiv.textContent = "Please enter API URL";
                 return;
             }
+
+            resultDiv.textContent = "Checking...";
+            resultDiv.className = "";
             
             try {
-                const options = {
-                    method: method,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                };
+                const response = await fetch(url);
                 
-                if (method !== 'GET' && requestData) {
-                    options.body = requestData;
+                if(response.ok) {
+                    resultDiv.textContent = "✅ API is WORKING";
+                    resultDiv.className = "working";
+                } else {
+                    resultDiv.textContent = "❌ API NOT WORKING (Error " + response.status + ")";
+                    resultDiv.className = "not-working";
                 }
-                
-                document.getElementById('response-status').innerHTML = 'Testing...';
-                document.getElementById('response').textContent = '';
-                
-                const response = await fetch(url, options);
-                const data = await response.json();
-                
-                document.getElementById('response-status').className = 'success';
-                document.getElementById('response-status').innerHTML = 
-                    `✅ Success! Status: ${response.status} ${response.statusText}`;
-                
-                document.getElementById('response').textContent = 
-                    JSON.stringify(data, null, 2);
-                
             } catch (error) {
-                document.getElementById('response-status').className = 'error';
-                document.getElementById('response-status').innerHTML = 
-                    `❌ Error: ${error.message}`;
-                document.getElementById('response').textContent = '';
-                console.error('API Error:', error);
+                resultDiv.textContent = "❌ API NOT WORKING (" + error.message + ")";
+                resultDiv.className = "not-working";
             }
         }
     </script>
