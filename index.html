@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIM Data & FaceSwap Tool</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #000;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .box {
+      background: #111;
+      border: 2px solid red;
+      box-shadow: 0 0 25px red;
+      padding: 30px 20px;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+      margin-bottom: 20px;
+    }
+
+    .faceswap-box {
+      border: 2px solid #00a8ff;
+      box-shadow: 0 0 25px #00a8ff;
+    }
+
+    .box h2 {
+      color: red;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .faceswap-box h2 {
+      color: #00a8ff;
+    }
+
+    .box input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 20px;
+      font-size: 16px;
+      background: #333;
+      color: white;
+      box-shadow: inset 0 0 5px red;
+    }
+
+    .faceswap-box input {
+      box-shadow: inset 0 0 5px #00a8ff;
+    }
+
+    .box button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(90deg, #c00000, #ff0000);
+      box-shadow: 0 0 15px red;
+      transition: 0.3s;
+    }
+
+    .faceswap-box button {
+      background: linear-gradient(90deg, #0066cc, #00a8ff);
+      box-shadow: 0 0 15px #00a8ff;
+    }
+
+    .box button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #ff0000, #c00000);
+    }
+
+    .faceswap-box button:hover {
+      background: linear-gradient(90deg, #00a8ff, #0066cc);
+    }
+
+    .whatsapp-btn {
+      background: linear-gradient(90deg, #25D366, #128C7E);
+      box-shadow: 0 0 15px #25D366;
+      color: white;
+    }
+
+    #responseBox, #faceswapResult {
+      color: white;
+      margin-top: 20px;
+      font-size: 16px;
+      display: none;
+      animation: fadeIn 1s ease-in-out;
+      background: #222;
+      border: 1px solid #444;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: left;
+    }
+
+    #faceswapResult img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .file-input-container {
+      margin-bottom: 20px;
+    }
+
+    .file-input-label {
+      display: block;
+      color: white;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+
+    .tab-container {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      background: #333;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px 5px 0 0;
+      margin-right: 5px;
+    }
+
+    .tab.active {
+      background: red;
+    }
+
+    .faceswap-tab.active {
+      background: #00a8ff;
+    }
+
+    .content {
+      display: none;
+    }
+
+    .content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box">
+      <h2>🔍 Search SIM Details</h2>
+      <input type="text" id="number" placeholder="Enter phone number" required />
+      <button onclick="fetchData()">🔎 Get Details</button>
+
+      <div id="responseBox"></div>
+
+      <button id="shareButton" class="whatsapp-btn" onclick="shareWhatsApp()" style="display: none;">📲 Share on WhatsApp</button>
+      <button id="channelButton" class="whatsapp-btn" onclick="window.open('https://whatsapp.com/channel/YourChannelID', '_blank')">📢 Join WhatsApp Channel</button>
+    </div>
+
+    <div class="box faceswap-box">
+      <h2>🎭 FaceSwap Tool</h2>
+      
+      <div class="file-input-container">
+        <label class="file-input-label">Source Image (Face to use):</label>
+        <input type="file" id="sourceImage" accept="image/*" />
+      </div>
+      
+      <div class="file-input-container">
+        <label class="file-input-label">Target Image (Face to replace):</label>
+        <input type="file" id="targetImage" accept="image/*" />
+      </div>
+      
+      <button onclick="performFaceSwap()">🔄 Swap Faces</button>
+      
+      <div id="faceswapResult"></div>
+    </div>
+  </div>
+
+  <script>
+    // SIM Data Lookup Functions
+    async function fetchData() {
+      const number = document.getElementById("number").value.trim();
+      const responseBox = document.getElementById("responseBox");
+      const shareButton = document.getElementById("shareButton");
+
+      if (!number) {
+        alert("Please enter a phone number.");
+        return;
+      }
+
+      const url = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://fam-official.serv00.net/sim/api.php?num=${number}`)}`;
+
+      try {
+        const res = await fetch(url);
+        const json = await res.json();
+        const apiData = JSON.parse(json.contents);
+
+        if (apiData.status === "success" && Array.isArray(apiData.data) && apiData.data.length > 0) {
+          const user = apiData.data[0];
+          const content = `
+📞 Mobile: ${user.Mobile || "Not found"}
+👤 Name: ${user.Name || "Not found"}
+🆔 CNIC: ${user.CNIC || "Not found"}
+📍 Address: ${user.Address || "Not found"}
+📶 Operator: ${user.Operator || "Not found"}
+          `;
+          responseBox.innerText = content;
+          responseBox.style.display = "block";
+          shareButton.style.display = "inline-block";
+        } else {
+          responseBox.innerHTML = `<p style="color: yellow; font-size: 18px; font-weight: bold;">Data Not Found</p>`;
+          responseBox.style.display = "block";
+          shareButton.style.display = "none";
+        }
+      } catch (e) {
+        responseBox.innerHTML = `<p style="color: red; font-size: 18px; font-weight: bold;">Error fetching data. Please try again later.</p>`;
+        responseBox.style.display = "block";
+        shareButton.style.display = "none";
+      }
+    }
+
+    function shareWhatsApp() {
+      const responseBox = document.getElementById("responseBox");
+      const text = encodeURIComponent(responseBox.innerText);
+      const url = `https://wa.me/?text=${text}`;
+      window.open(url, '_blank');
+    }
+
+    // FaceSwap Functions
+    async function performFaceSwap() {
+      const sourceFile = document.getElementById('sourceImage').files[0];
+      const targetFile = document.getElementById('targetImage').files[0];
+      const resultDiv = document.getElementById('faceswapResult');
+
+      if (!sourceFile || !targetFile) {
+        alert('Please select both source and target images');
+        return;
+      }
+
+      resultDiv.innerHTML = '<p>Processing face swap... Please wait.</p>';
+      resultDiv.style.display = 'block';
+
+      const formData = new FormData();
+      formData.append('source_image', sourceFile);
+      formData.append('target_image', targetFile);
+
+      try {
+        const response = await fetch('https://bj-devs.serv00.net/v1/faceswap.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          const imageBlob = await response.blob();
+          const imageUrl = URL.createObjectURL(imageBlob);
+          resultDiv.innerHTML = `
+            <p>Face swap successful!</p>
+            <img src="${imageUrl}" alt="FaceSwap Result">
+            <button onclick="downloadImage('${imageUrl}')" style="margin-top: 10px;">Download Image</button>
+          `;
+        } else {
+          throw new Error('Face swap failed');
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+      }
+    }
+
+    function downloadImage(imageUrl) {
+      const link = document.createElement('a');
+      link.href = imageUrl;
+      link.download = 'faceswap-result.jpg';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+
+  <!-- Footer Script -->
+  <script src=""></script>
+</body>
+</html>
