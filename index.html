@@ -1,172 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FaceSwap Tool</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TEAM BLACK HAT GPT</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      animation: fadeIn 1s ease-in-out;
+      background-image: radial-gradient(#1a0000 1px, transparent 1px);
+      background-size: 20px 20px;
     }
-    .container {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    h1 {
-      color: #333;
-      text-align: center;
-    }
-    .file-input {
-      margin: 15px 0;
-    }
-    button {
-      background: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
+
+    .box {
+      background: #111;
+      border: 2px solid #ff0000;
+      box-shadow: 0 0 35px #ff0000;
+      padding: 30px 20px;
+      border-radius: 5px;
       width: 100%;
-    }
-    button:hover {
-      background: #45a049;
-    }
-    #result {
-      margin-top: 20px;
+      max-width: 450px;
       text-align: center;
+      animation: fadeIn 1s ease-in-out;
+      position: relative;
+      overflow: hidden;
     }
-    #result img {
-      max-width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      padding: 5px;
+
+    .box::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #ff0000, #8b0000, #ff0000);
+      animation: borderGlow 2s infinite;
     }
-    .error {
-      color: #f44336;
+
+    .title {
+      color: #ff0000;
+      font-size: 28px;
+      margin-bottom: 5px;
+      text-shadow: 0 0 10px #ff0000;
       font-weight: bold;
+      letter-spacing: 1px;
     }
-    .loading {
-      color: #2196F3;
+
+    .subtitle {
+      color: #8b0000;
+      font-size: 14px;
+      margin-bottom: 20px;
       font-style: italic;
+    }
+
+    .box textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 3px;
+      border: 1px solid #330000;
+      margin-bottom: 20px;
+      font-size: 16px;
+      background: #1a1a1a;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      box-shadow: inset 0 0 10px #000;
+    }
+
+    .box button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 3px;
+      margin: 10px 0;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      color: black;
+      background: linear-gradient(90deg, #ff0000, #8b0000);
+      text-shadow: 0 0 5px #ff0000;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+    }
+
+    .box button:hover {
+      background: linear-gradient(90deg, #8b0000, #ff0000);
+      box-shadow: 0 0 20px #ff0000;
+    }
+
+    .box button::after {
+      content: ">>";
+      position: absolute;
+      right: 10px;
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    .box button:hover::after {
+      opacity: 1;
+      right: 15px;
+    }
+
+    #responseBox {
+      color: #00ff00;
+      margin-top: 20px;
+      font-size: 16px;
+      display: none;
+      animation: fadeIn 1s ease-in-out;
+      background: #0a0a0a;
+      border: 1px solid #330000;
+      padding: 15px;
+      border-radius: 3px;
+      text-align: left;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      position: relative;
+    }
+
+    #responseBox::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(transparent 95%, rgba(0, 255, 0, 0.1) 100%);
+      pointer-events: none;
+    }
+
+    .typing {
+      display: inline-block;
+      color: #ff0000;
+    }
+    .typing::after {
+      content: '...';
+      animation: typing 1.5s infinite;
+    }
+
+    @keyframes typing {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes borderGlow {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+
+    .hacker-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #ff0000;
+      font-size: 20px;
+      opacity: 0.7;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>FaceSwap Tool</h1>
+  <div class="box">
+    <div class="hacker-icon">☠</div>
+    <div class="title">TEAM BLACK HAT GPT</div>
+    <div class="subtitle">DEVELOPED BY OLD HACKER</div>
     
-    <div class="file-input">
-      <label for="sourceImage"><b>Source Image (Face to use):</b></label>
-      <input type="file" id="sourceImage" accept="image/*" />
-    </div>
-    
-    <div class="file-input">
-      <label for="targetImage"><b>Target Image (Face to replace):</b></label>
-      <input type="file" id="targetImage" accept="image/*" />
-    </div>
-    
-    <button onclick="performFaceSwap()">Swap Faces</button>
-    
-    <div id="status"></div>
-    <div id="result"></div>
+    <textarea id="prompt" placeholder="Enter your command..." required></textarea>
+    <button onclick="fetchGPTResponse()">EXECUTE</button>
+
+    <div id="responseBox"></div>
   </div>
 
   <script>
-    async function performFaceSwap() {
-      const sourceFile = document.getElementById('sourceImage').files[0];
-      const targetFile = document.getElementById('targetImage').files[0];
-      const statusDiv = document.getElementById('status');
-      const resultDiv = document.getElementById('result');
+    const API_ENDPOINT = "https://gpt-3-5.apis-bj-devs.workers.dev/";
+    
+    async function fetchGPTResponse() {
+      const prompt = document.getElementById("prompt").value.trim();
+      const responseBox = document.getElementById("responseBox");
 
-      // Clear previous results
-      statusDiv.innerHTML = '';
-      resultDiv.innerHTML = '';
-
-      if (!sourceFile || !targetFile) {
-        statusDiv.innerHTML = '<p class="error">Please select both source and target images</p>';
+      if (!prompt) {
+        responseBox.innerHTML = "Error: No command entered";
+        responseBox.style.display = "block";
         return;
       }
 
-      statusDiv.innerHTML = '<p class="loading">Processing face swap... Please wait.</p>';
+      responseBox.innerHTML = '<span class="typing">Initializing system</span>';
+      responseBox.style.display = "block";
 
       try {
-        // Alternative API endpoint options (try one at a time)
-        const apiEndpoints = [
-          'https://bj-devs.serv00.net/v1/faceswap.php',
-          'https://cors-anywhere.herokuapp.com/https://bj-devs.serv00.net/v1/faceswap.php',
-          'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://bj-devs.serv00.net/v1/faceswap.php')
-        ];
+        const response = await fetch(API_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            prompt: prompt,
+            max_tokens: 1000,
+            temperature: 0.7
+          })
+        });
 
-        let lastError = null;
-        
-        // Try each endpoint until one works
-        for (const endpoint of apiEndpoints) {
-          try {
-            const formData = new FormData();
-            formData.append('source_image', sourceFile);
-            formData.append('target_image', targetFile);
-
-            const response = await fetch(endpoint, {
-              method: 'POST',
-              body: formData
-            });
-
-            if (!response.ok) {
-              throw new Error(`Server responded with status ${response.status}`);
-            }
-
-            const imageBlob = await response.blob();
-            if (!imageBlob.type.startsWith('image/')) {
-              throw new Error('Received invalid image data');
-            }
-
-            const imageUrl = URL.createObjectURL(imageBlob);
-            resultDiv.innerHTML = `
-              <h3>Face Swap Result</h3>
-              <img src="${imageUrl}" alt="FaceSwap Result">
-              <p><button onclick="downloadImage('${imageUrl}')">Download Image</button></p>
-            `;
-            statusDiv.innerHTML = '<p style="color:green;">Success! Face swap completed.</p>';
-            return; // Success - exit the function
-          } catch (err) {
-            lastError = err;
-            console.error(`Attempt failed for ${endpoint}:`, err);
-            // Continue to try next endpoint
-          }
+        if (!response.ok) {
+          throw new Error(`System error [Code ${response.status}]`);
         }
 
-        // If all endpoints failed
-        throw lastError || new Error('All API endpoints failed');
-
+        const data = await response.json();
+        
+        if (data.choices && data.choices[0] && data.choices[0].text) {
+          responseBox.innerHTML = formatResponse(data.choices[0].text);
+        } else {
+          responseBox.innerHTML = "Error: Invalid response format from system";
+        }
       } catch (error) {
-        console.error('Face swap error:', error);
-        statusDiv.innerHTML = `
-          <p class="error">Error: ${error.message}</p>
-          <p>Possible solutions:</p>
-          <ul>
-            <li>Try again later - the server might be busy</li>
-            <li>Use different images (JPG/PNG format recommended)</li>
-            <li>Check your internet connection</li>
-          </ul>
-        `;
+        console.error("Error:", error);
+        responseBox.innerHTML = `System Failure:\n\n${error.message}\n\nAttempt connection reset...`;
       }
     }
 
-    function downloadImage(imageUrl) {
-      const link = document.createElement('a');
-      link.href = imageUrl;
-      link.download = 'faceswap-result.jpg';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    function formatResponse(text) {
+      // Add hacker-style formatting
+      return text
+        .replace(/\n/g, '<br>')
+        .replace(/error/gi, '<span style="color:#ff0000">$&</span>')
+        .replace(/warning/gi, '<span style="color:#ffff00">$&</span>')
+        .replace(/success/gi, '<span style="color:#00ff00">$&</span>');
     }
+
+    // Allow submitting with Enter key
+    document.getElementById("prompt").addEventListener("keydown", function(e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        fetchGPTResponse();
+      }
+    });
   </script>
 </body>
 </html>
