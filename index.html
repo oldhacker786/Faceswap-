@@ -1,253 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SIM Data Lookup</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #000;
-      font-family: 'Courier New', monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      animation: fadeIn 1s ease-in-out;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join WhatsApp Group or Channel</title>
+    <style>
+        /* Importing Google Font */
+        @import url('https://lingojam.com/FancyTextGenerator');
 
-    /* Matrix rain animation */
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(transparent 80%, rgba(0, 255, 0, 0.1));
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .box {
-      background: rgba(0, 20, 0, 0.8);
-      border: 1px solid #0f0;
-      box-shadow: 0 0 25px #0f0, 0 0 50px #0f0;
-      padding: 30px 20px;
-      border-radius: 5px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-      animation: fadeIn 1s ease-in-out, glitch 2s infinite alternate;
-      position: relative;
-    }
-
-    @keyframes glitch {
-      0% { transform: translate(0); }
-      20% { transform: translate(-2px, 2px); }
-      40% { transform: translate(-2px, -2px); }
-      60% { transform: translate(2px, 2px); }
-      80% { transform: translate(2px, -2px); }
-      100% { transform: translate(0); }
-    }
-
-    .top-title {
-      color: #0f0;
-      text-shadow: 0 0 10px #0f0;
-      font-size: 18px;
-      margin-bottom: 5px;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-
-    .box h2 {
-      color: #0f0;
-      font-size: 24px;
-      margin-bottom: 20px;
-      text-shadow: 0 0 5px #0f0;
-      letter-spacing: 1px;
-    }
-
-    .bottom-title {
-      color: #0f0;
-      text-shadow: 0 0 10px #0f0;
-      font-size: 16px;
-      margin-top: 15px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-    .box input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 0;
-      border: 1px solid #0f0;
-      margin-bottom: 20px;
-      font-size: 16px;
-      background: #000;
-      color: #0f0;
-      box-shadow: inset 0 0 10px #0f0;
-      font-family: 'Courier New', monospace;
-    }
-
-    .box input::placeholder {
-      color: #0a0;
-      opacity: 0.7;
-    }
-
-    .box button {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #0f0;
-      border-radius: 0;
-      margin: 10px 0;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #000;
-      background: #0f0;
-      box-shadow: 0 0 15px #0f0;
-      transition: 0.3s;
-      font-family: 'Courier New', monospace;
-      letter-spacing: 1px;
-    }
-
-    .box button:hover {
-      transform: scale(1.02);
-      background: #0a0;
-      color: #0f0;
-    }
-
-    .whatsapp-btn {
-      background: #0f0;
-      box-shadow: 0 0 15px #0f0;
-      color: #000;
-    }
-
-    #responseBox {
-      color: #0f0;
-      margin-top: 20px;
-      font-size: 16px;
-      display: none;
-      animation: fadeIn 1s ease-in-out;
-      background: rgba(0, 10, 0, 0.5);
-      border: 1px solid #0f0;
-      padding: 15px;
-      border-radius: 0;
-      text-align: left;
-      font-family: 'Courier New', monospace;
-      line-height: 1.5;
-    }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-
-    /* Terminal cursor effect */
-    .blink {
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-  </style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://i.postimg.cc/h4TkcLjf/IMG-20241231-WA0393-2.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .team-name {
+            font-size: 36px; /* Increased font size */
+            color: #333;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif; /* Stylish font */
+            font-weight: 700; /* Bold */
+            text-transform: uppercase; /* Uppercase text */
+            letter-spacing: 2px; /* Spacing between letters */
+        }
+        .join-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            background-color: #25D366;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 10px;
+        }
+        .join-button:hover {
+            background-color: #128C7E;
+        }
+    </style>
 </head>
 <body>
-  <div class="box">
-    <div class="top-title">TEAM BLACK HAT DATABASE</div>
-    <h2>🔍 SIM DATA TERMINAL</h2>
-    <input type="text" id="number" placeholder="ENTER TARGET NUMBER" required />
-    <button onclick="fetchData()">⏎ EXECUTE QUERY</button>
+    <div class="container">
+        <div class="team-name">TEAM BLACK HAT</div>
+        <p>Click the button below to join our WhatsApp group or channel:</p>
+        <button class="join-button" onclick="joinWhatsAppGroup()">Join WhatsApp Group</button>
+        <button class="join-button" onclick="joinWhatsAppChannel()">Join WhatsApp Channel</button>
+    </div>
 
-    <div id="responseBox"></div>
+    <script>
+        function joinWhatsAppGroup() {
+            const groupLink = "https://chat.whatsapp.com/your-group-invite-link"; // Replace with your WhatsApp group invite link
+            window.location.href = groupLink;
+        }
 
-    <button id="shareButton" class="whatsapp-btn" onclick="shareWhatsApp()" style="display: none;">📲 EXPORT TO WHATSAPP</button>
-    <button id="channelButton" class="whatsapp-btn" onclick="window.open('https://whatsapp.com/channel/0029VavHzv259PwTIz1XxJ09', '_blank')">📢 JOIN COMMUNICATION CHANNEL</button>
-    <div class="bottom-title">DEVELOPED BY OLD HACKER</div>
-  </div>
-
-  <script>
-    async function fetchData() {
-      const number = document.getElementById("number").value.trim();
-      const responseBox = document.getElementById("responseBox");
-      const shareButton = document.getElementById("shareButton");
-
-      if (!number) {
-        alert("INPUT ERROR: NO TARGET SPECIFIED");
-        return;
-      }
-
-      // Add terminal-like response
-      responseBox.innerHTML = `
-        <div>QUERYING DATABASE... <span class="blink">█</span></div>
-      `;
-      responseBox.style.display = "block";
-
-      const url = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://fam-official.serv00.net/sim/api.php?num=${number}`)}`;
-
-      try {
-        const res = await fetch(url);
-        const json = await res.json();
-        const apiData = JSON.parse(json.contents);
-
-        // Simulate loading delay for hacker effect
-        setTimeout(() => {
-          if (apiData.status === "success" && Array.isArray(apiData.data) && apiData.data.length > 0) {
-            const user = apiData.data[0];
-            const content = `
-> DATABASE ENTRY FOUND
-> -------------------
-📞 MOBILE: ${user.Mobile || "NOT FOUND"}
-👤 NAME: ${user.Name || "NOT FOUND"}
-🆔 CNIC: ${user.CNIC || "NOT FOUND"}
-📍 ADDRESS: ${user.Address || "NOT FOUND"}
-📶 OPERATOR: ${user.Operator || "NOT FOUND"}
-            `;
-            responseBox.innerText = content;
-            shareButton.style.display = "inline-block";
-          } else {
-            responseBox.innerHTML = `<div style="color: #0f0; font-weight: bold;">>> ERROR 404: DATA NOT FOUND IN DATABASE</div>`;
-            shareButton.style.display = "none";
-          }
-        }, 1500);
-      } catch (e) {
-        setTimeout(() => {
-          responseBox.innerHTML = `<div style="color: #f00; font-weight: bold;">>> SYSTEM ERROR: CONNECTION FAILED</div>`;
-          shareButton.style.display = "none";
-        }, 1500);
-      }
-    }
-
-    function shareWhatsApp() {
-      const responseBox = document.getElementById("responseBox");
-      const text = encodeURIComponent("HACKER TOOL RESULTS:\n" + responseBox.innerText);
-      const url = `https://wa.me/?text=${text}`;
-      window.open(url, '_blank');
-    }
-
-    // Add hacker-like typing effect to input placeholder
-    const input = document.getElementById("number");
-    const originalPlaceholder = "ENTER TARGET NUMBER";
-    let i = 0;
-    
-    function typePlaceholder() {
-      if (i < originalPlaceholder.length) {
-        input.placeholder = originalPlaceholder.substring(0, i+1);
-        i++;
-        setTimeout(typePlaceholder, Math.random() * 100 + 50);
-      }
-    }
-    
-    // Start typing effect after page loads
-    window.onload = function() {
-      setTimeout(typePlaceholder, 1000);
-    };
-  </script>
+        function joinWhatsAppChannel() {
+            const channelLink = "https://chat.whatsapp.com/your-channel-invite-link"; // Replace with your WhatsApp channel invite link
+            window.location.href = channelLink;
+        }
+    </script>
 </body>
 </html>
