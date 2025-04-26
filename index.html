@@ -106,25 +106,48 @@
     <button class="clear" style="background:#ff0000; color:#000; border:none; padding:15px; margin-left:10px; cursor:pointer;">X</button>
   </div>
 
-  <!-- ===== FONT STYLES (SAME AS BEFORE) ===== -->
+  <!-- ===== FONT STYLES ===== -->
   <div class="myfontlist">
     <div class="myfont"><span>Double Struck</span><p class="doubleStruckCharMap">𝔽𝕒𝕟𝕔𝕪 𝕃𝕖𝕥𝕥𝕖𝕣𝕤</p></div>
-    <div class="myfont"><span>Bold</span><p class="boldCharMap">𝐅𝐚𝐧𝐜𝐲 𝐋𝐞𝐭𝐭𝐞𝐫𝐬</p></div>
+    <div class="myfont"><span>Italic</span><p class="italicCharMap">𝘍𝘢𝘯𝘤𝘺 𝘓𝘦𝘵𝘵𝘦𝘳𝘴</p></div>
+    <div class="myfont"><span>Bold Italic</span><p class="boldItalicCharMap">𝙁𝙖𝙣𝙘𝙮 𝙇𝙚𝙩𝙩𝙚𝙧𝙨</p></div>
+    <div class="myfont"><span>Mono Space</span><p class="monospaceCharMap">𝙵𝚊𝚗𝚌𝚢 𝙻𝚎𝚝𝚝𝚎𝚛𝚜</p></div>
+    <div class="myfont"><span>Lunitools Bubbles</span><p class="lunitoolsbubbles">Ⓕⓐⓝⓒⓨ Ⓛⓔⓣⓣⓔⓡⓢ</p></div>
+    <div class="myfont"><span>Inverted Squares</span><p class="invertedSquaresCharMap">🅵🅰🅽🅲🆈 🅻🅴🆃🆃🅴🆁🆂</p></div>
+    <div class="myfont"><span>Old English</span><p class="oldEnglishCharMap">𝔉𝔞𝔫𝔠𝔶 𝔏𝔢𝔱𝔱𝔢𝔯𝔰</p></div>
+    <div class="myfont"><span>Medieval</span><p class="medievalCharMap">𝕱𝖆𝖓𝖈𝖞 𝕷𝖊𝖙𝖙𝖊𝖗𝖘</p></div>
+    <div class="myfont"><span>Cursive</span><p class="cursiveCharMap">𝓕𝓪𝓷𝓬𝔂 𝓛𝓮𝓽𝓽𝓮𝓻𝓼</p></div>
     <div class="myfont"><span>Blood Style</span><p style="color:#ff0000; text-shadow:0 0 5px #8B0000;">F̷A̷N̷C̷Y̷ L̷E̷T̷T̷E̷R̷S̷</p></div>
-    <!-- Add more styles as needed -->
+    <!-- Add more font styles as needed -->
   </div>
 
   <!-- ===== WHATSAPP BUTTON ===== -->
   <div style="text-align:center; background:#000; padding:10px;">
     <a href="https://whatsapp.com/channel/0029VavHzv259PwTIz1XxJ09" target="_blank" class="whatsapp-btn">
-      JOIN WHATSAPP CHANNEL
+      JOIN OUR WHATSAPP CHANNEL
     </a>
   </div>
 
-  <!-- ===== DEVELOPER BY OLD HACKER ===== -->
+  <!-- ===== DEVELOPER CREDIT ===== -->
   <div class="footer">
     <p>DEVELOPER: OLD HACKER | TEAM BLACK HAT</p>
   </div>
+
+  <script>
+    // Functionality to copy text
+    document.querySelectorAll('.myfont p').forEach(item => {
+      item.addEventListener('click', event => {
+        const textToCopy = event.target.textContent;
+        navigator.clipboard.writeText(textToCopy);
+        alert('Copied: ' + textToCopy);
+      });
+    });
+
+    // Clear input field
+    document.querySelector('.clear').addEventListener('click', () => {
+      document.getElementById('myfont-text').value = '';
+    });
+  </script>
 
 </body>
 </html>
